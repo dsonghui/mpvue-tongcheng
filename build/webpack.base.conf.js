@@ -68,7 +68,7 @@ module.exports = {
       // },
       {
         test: /\.vue$/,
-        loader: 'mpvue-ts-loader',
+        loader: 'mpvue-loader',
         options: vueLoaderConfig
       },
       {
@@ -147,15 +147,5 @@ module.exports = {
         }
       }
     ]
-  },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      test: /\.(vue|ts)$/,
-      options: {
-        ts: {
-          appendTsSuffixTo: [/\.vue$/]
-        }
-      }
-    })
-  ]
+  }
 }

@@ -1,7 +1,6 @@
 import { Vue, Component } from "vue-property-decorator";
 import PageMixins from "mixins/PageMixins";
 import { Env } from "services/support/Env";
-import { UsersService } from "services/UsersService";
 import { WxStorage } from "helpers/WxStorage";
 import MFiled from "components/field.vue";
 
@@ -20,10 +19,10 @@ export default class Index extends Vue {
   Name2: string = '';
 
   handleSyncInfo() {
-    UsersService.syncUserProfile().then(r => {
-      console.log(r);
-      console.log('资料同步成功');
-    })
+    // UsersService.syncUserProfile().then(r => {
+    //   console.log(r);
+    //   console.log('资料同步成功');
+    // })
   }
 
   handleClearCache() {

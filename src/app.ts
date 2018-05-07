@@ -64,7 +64,6 @@ Vue.prototype.AppUrls = AppUrls
   mpType: 'app', // mpvue特定
 }as any)
 class App extends Vue {
-  ttt: number = 0;
   // app hook
   onLaunch() {
     let opt = this.$root.$mp.appOptions
@@ -86,7 +85,6 @@ class App extends Vue {
   }
 
   mounted() {
-    this.ttt = 9999;
   }
 
 }

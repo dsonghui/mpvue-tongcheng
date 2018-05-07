@@ -1,4 +1,4 @@
-import { Component, Emit, Inject, Model, Prop, Provide, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { VueConstructor } from "vue";
 
 interface IMpVue extends VueConstructor {
@@ -38,43 +38,12 @@ export default {
   config: {
     pages: [  // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
       '^pages/index/main',
-      'pages/componentsTest/main',
-      'pages/login/main',
-      'pages/cui/main',
-
-      'pages/me/main',
-      'pages/me/detail/main',
-
-      'pages/form/index/main',
-      'pages/form/mchat/main',
-      'pages/form/mchat/history/main',
-
-      'pages/form/abc/main',
-
-      'pages/children/index/main',
-      'pages/children/detail/main',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
-    },
-    tabBar: {
-      list: [
-        {
-          "pagePath": "pages/index/main",
-          "text": "首页"
-        },
-        {
-          "pagePath": "pages/cui/main",
-          "text": "Ai"
-        },
-        {
-          "pagePath": "pages/me/main",
-          "text": "我"
-        },
-      ]
-    },
+    }
   }
 }

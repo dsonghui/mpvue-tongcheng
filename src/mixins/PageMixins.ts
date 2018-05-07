@@ -3,9 +3,7 @@ import { Env } from "services/support/Env";
 
 @Component({})
 export default class PageMixins extends Vue {
-
   isPageMixins: string = '';
-
   onShow() {
     console.log('==PageMixinsonShow:' + this.$options.name)
   }
