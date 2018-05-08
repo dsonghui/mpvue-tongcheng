@@ -23,6 +23,9 @@ export default class Index extends Vue {
     //   console.log(r);
     //   console.log('资料同步成功');
     // })
+    wx.navigateTo({
+      url: '/pages/login/main?from=/pages/index/main'
+    })
   }
 
   handleClearCache() {
@@ -37,18 +40,17 @@ export default class Index extends Vue {
 
 
   mounted() {
-
     // vue hook
     console.log(Env.getInstance().getToken());
 
     console.log(getApp());
-
-    if (!Env.getInstance().getToken()) {
-      console.log('goto login');
-      wx.navigateTo({
-        url: '/pages/login/main?from=/pages/index/main'
-      })
-    }
+    //
+    // if (!Env.getInstance().getToken()) {
+    //   console.log('goto login');
+    //   wx.navigateTo({
+    //     url: '/pages/login/main?from=/pages/index/main'
+    //   })
+    // }
   }
 
 }

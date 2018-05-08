@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   request<T>(url = '', params: any = {}, method = 'post', option: FlyRequestConfig = {}): Promise<T> {
-    return this.api.__defaultRequest<T>(method, url, params, option).then(response => {
+    return this.__defaultRequest<T>(method, url, params, option).then(response => {
       // 取出后台返回的最后值;
       return response.data.Data;
     }).catch(err => {
@@ -51,11 +51,11 @@ export class ApiService {
     })
   }
 
-  getRequest(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+  get(url = '', params: any = {}, option: FlyRequestConfig = {}) {
     return this.request(url, params, 'get', option)
   }
 
-  postRequest(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+  post(url = '', params: any = {}, option: FlyRequestConfig = {}) {
     return this.request(url, params, 'post', option)
   }
 
@@ -64,7 +64,7 @@ export class ApiService {
    */
   setInterceptors() {
 
-    this.api.api.interceptors.request.use(request => {
+    this.api.interceptors.request.use(request => {
       request.headers['sessionId'] = Env.getInstance().sessionId;
       if (Env.getInstance().token) {
         request.headers['token'] = Env.getInstance().getToken();
@@ -73,7 +73,7 @@ export class ApiService {
     });
 
 
-    this.api.api.interceptors.response.use(response => {
+    this.api.interceptors.response.use(response => {
       //处理Token
       if (response.headers.token) {
         if (!Env.getInstance().getToken() || Env.getInstance().getToken() !== response.headers.token) {
@@ -131,5 +131,5 @@ export class ApiService {
   }
 
 }
-
-export default new ApiService();
+const Api = new ApiService();
+export default Api;

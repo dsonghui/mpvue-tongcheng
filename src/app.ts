@@ -1,5 +1,5 @@
-import { Vue, Component } from 'vue-property-decorator'
-import { AppUrls } from "config/index";
+import {Vue, Component} from 'vue-property-decorator'
+import {AppUrls} from "config/index";
 
 const debug = require('debug')('log:App')
 
@@ -47,7 +47,7 @@ Vue.prototype.$hidenloading = () => {
 }
 Vue.prototype.$route = {
   back(index = 1) {
-    wx.navigateBack({ delta: index })
+    wx.navigateBack({delta: index})
   },
   go(url) {
     wx.navigateTo({
