@@ -1,8 +1,3 @@
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const ACCCOUNT_UPDATE = 'ACCCOUNT_UPDATE';
-export const ACCOUNT_CLEAN = 'ACCOUNT_CLEAN';
-export const ACCOUNT_UPDATE_CHILDS = 'ACCOUNT_UPDATE_CHILDS';
-/**
- * 切换当前小孩ID
- * @type {string}
- */
-export const ACCOUNT_UPDATE_CURRENTCHILD = 'ACCOUNT_UPDATE_CURRENTCHILD';
+

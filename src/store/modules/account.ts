@@ -1,16 +1,21 @@
-import { ACCCOUNT_UPDATE, ACCOUNT_CLEAN, ACCOUNT_UPDATE_CHILDS, ACCOUNT_UPDATE_CURRENTCHILD } from "store/mutation";
+import {Module} from "vuex";
+import {UPDATE_TOKEN} from "store/mutation";
 
-export default {
-  state: {
-  },
-  actions: {
+class AccountState {
+  token: string = '';
+}
 
-  },
-  mutations: {
+class Account implements Module<AccountState, any> {
+  state: AccountState = new AccountState();
+  mutations = {
+    [UPDATE_TOKEN](state: AccountState, payload) {
+      state.token = payload;
+    }
+  }
+  actions = {}
 
-  },
-  getters: {
+  getters = {}
 
-  },
-};
+}
 
+export default new Account();
