@@ -1,7 +1,7 @@
 import {Vue, Component} from 'vue-property-decorator'
-import PageMixins from "mixins/PageMixins";
-import {mixins} from 'vue-class-component';
+require('./plugins/extendJs');
 import ExtendVue from './plugins/extendVue';
+import {UsersService} from "services/UsersService";
 
 Vue.use(new ExtendVue());
 
@@ -11,13 +11,11 @@ const debug = require('debug')('log:App');
 @Component({
   mpType: 'app', // mpvue特定,
 }as any)
-export default class App extends mixins(PageMixins) {
+export default class App extends Vue {
   // app hook
   onLaunch() {
     let opt = this.$root.$mp.appOptions;
     debug('onLaunch', opt);
-
-    this.$toast.success('onLaunch');
 
     wx.login({
       success(r) {
@@ -25,6 +23,14 @@ export default class App extends mixins(PageMixins) {
         console.log(r);
       }
     });
+
+    /**
+     * 初始化用户
+     */
+    UsersService.boot();
+
+
+    console.log(UsersService.isLogin())
   }
 
   onShow() {

@@ -3,15 +3,11 @@
  * Author: david.deng<david.deng@jcinfotech.com>
  * Date: 2017/01/24
  */
-import { AccountDetailModel } from "api/services/WeixinMiniProgramService";
-import { ChildInfoModel } from "api/services/ChildinfoService";
 
 
 interface Getters {
-  account: AccountDetailModel;
-  childs: ChildInfoModel[];
-  currentChildId: number;
-  currentChild: ChildInfoModel;
+  token: string;
+  isHasToken: boolean;
 }
 
 declare module 'vuex/types' {

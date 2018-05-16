@@ -18,5 +18,5 @@ export const AppUrls = {
 
 
 export default class JCConfig {
-  static HOST: string = 'http://localhost:8006';
+  static HOST: string = 'http://localhost:8100';
 }
