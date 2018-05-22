@@ -52,12 +52,12 @@ export class ApiService {
     })
   }
 
-  get(url = '', params: any = {}, option: FlyRequestConfig = {}) {
-    return this.request(url, params, 'get', option)
+  get<T>(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+    return this.request<T>(url, params, 'get', option)
   }
 
-  post(url = '', params: any = {}, option: FlyRequestConfig = {}) {
-    return this.request(url, params, 'post', option)
+  post<T>(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+    return this.request<T>(url, params, 'post', option)
   }
 
   /**

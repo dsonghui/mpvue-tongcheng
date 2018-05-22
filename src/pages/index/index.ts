@@ -1,7 +1,6 @@
 import {Vue, Component} from "vue-property-decorator";
 import PageMixins from "mixins/PageMixins";
-import {Env} from "services/support/Env";
-import MFiled from "components/field.vue";
+import FeedTimeline from "components/biz/FeedTimeLine.vue";
 
 const debug = require('debug')('log:Index');
 
@@ -9,10 +8,11 @@ const debug = require('debug')('log:Index');
   name: 'Index',
   mixins: [PageMixins],
   components: {
-    MFiled,
+    FeedTimeline
   }
 })
 export default class Index extends Vue {
   mounted() {
+    console.log('mounted==');
   }
 }
