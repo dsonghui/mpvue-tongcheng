@@ -2,7 +2,6 @@ import { Vue, Component } from "vue-property-decorator";
 import PageMixins from "mixins/PageMixins";
 import { Env } from "services/support/Env";
 import { WxStorage } from "helpers/WxStorage";
-import MFiled from "components/field.vue";
 
 const debug = require('debug')('log:Index');
 
@@ -10,7 +9,6 @@ const debug = require('debug')('log:Index');
   name: 'Debug',
   mixins: [PageMixins],
   components: {
-    MFiled
   }
 })
 export default class Debug extends Vue {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MCell title="123123"></MCell>
+    <FeedTimeline type="index"></FeedTimeline>
   </div>
 </template>
 <script lang="ts" src="./index.ts">
