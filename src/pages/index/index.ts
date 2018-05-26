@@ -1,6 +1,6 @@
 import {Vue, Component} from "vue-property-decorator";
 import PageMixins from "mixins/PageMixins";
-import FeedTimeline from "components/biz/FeedTimeLine.vue";
+import FeedTimeline from "components/biz/Feed/FeedTimeLine.vue";
 
 const debug = require('debug')('log:Index');
 

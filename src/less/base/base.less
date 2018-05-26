@@ -1,15 +1,23 @@
-@import "vars";  // 定义变量
+@import "vars";
+// 定义变量
 @import "mixin.less";
 @import "shorthand.less";
 
-.font-dpr(@font-size){
-    font-size: @font-size;
+.font-dpr(@font-size) {
+  font-size: @font-size;
 
-    [data-dpr="2"] & {
-        font-size: @font-size * 2;
-    }
+  [data-dpr="2"] & {
+    font-size: @font-size * 2;
+  }
 
-    [data-dpr="3"] & {
-        font-size: @font-size * 3;
-    }
+  [data-dpr="3"] & {
+    font-size: @font-size * 3;
+  }
+}
+
+/**
+ * reset.less
+ */
+._div {
+  box-sizing: border-box;
 }
