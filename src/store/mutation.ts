@@ -1,3 +1,5 @@
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_ACCOUNT_USER = 'UPDATE_ACCOUNT_USER';
 
+export const SAVE_USER = 'SAVE_USER';
+

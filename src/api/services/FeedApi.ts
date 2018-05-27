@@ -7,8 +7,18 @@ import Api from '../index'
 import {FeedsResponse} from "api/entities/FeedEntity";
 
 export default class FeedApi {
+  static preUrl = '/api/v2/feeds'
+
   static getFeeds(type, limit) {
-    return Api.get<FeedsResponse>('/api/v2/feeds', {type, limit});
+    return Api.get<FeedsResponse>(FeedApi.preUrl, {type, limit});
+  }
+
+  static like(id) {
+    return Api.post<any>(FeedApi.preUrl + '/' + id + '/like');
+  }
+
+  static unlike(id) {
+    return Api.request<any>(FeedApi.preUrl + '/' + id + '/unlike', {}, 'delete');
   }
 
 }

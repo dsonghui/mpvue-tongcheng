@@ -25,7 +25,7 @@ export class ApiService {
    * @param {Object} params 请求参数
    * @param option
    */
-  __defaultRequest<T>(method = '', url = '', params: any = {}, option: FlyRequestConfig = {}) {
+  __defaultRequest<T>(method = '', url = '', params: any = null, option: FlyRequestConfig = {}) {
     option = Object.assign(this.setOption(), option || {});
     option.method = method;
     return this.api.request<T>(this.geturl(url), params, option)
@@ -42,7 +42,7 @@ export class ApiService {
     return (/^https/).test(url) ? url : JCConfig.HOST + url;
   }
 
-  request<T>(url = '', params: any = {}, method = 'post', option: FlyRequestConfig = {}): Promise<T> {
+  request<T>(url = '', params: any = null, method = 'post', option: FlyRequestConfig = {}): Promise<T> {
     return this.__defaultRequest<T>(method, url, params, option).then(response => {
       // 取出后台返回的最后值;
       return response;
@@ -52,11 +52,11 @@ export class ApiService {
     })
   }
 
-  get<T>(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+  get<T>(url = '', params: any = null, option: FlyRequestConfig = {}) {
     return this.request<T>(url, params, 'get', option)
   }
 
-  post<T>(url = '', params: any = {}, option: FlyRequestConfig = {}) {
+  post<T>(url = '', params: any = null, option: FlyRequestConfig = {}) {
     return this.request<T>(url, params, 'post', option)
   }
 
@@ -68,7 +68,7 @@ export class ApiService {
     this.api.interceptors.request.use(request => {
       let token = WxStorage.get('user-token');
       if (token) {
-        request.headers['token'] = token;
+        request.headers['Authorization'] = 'Bearer ' + token;
       }
       return request;
     });

@@ -4,7 +4,7 @@
       <div class="feed-avatar">
         <Avatar :user="user"></Avatar>
       </div>
-      <div class="feed-content">
+      <div class="feed-content" @click="handleView">
 
         <div class="feed-content-header">
           <div class="feed-user-name">{{user.name}}</div>
@@ -22,19 +22,35 @@
 
         <div class="feed-content-footer">
           <div class="feed-status">
-            <div class="isflex" @click.prevent="handleLike">
-              <span class="iconfont icon-like"></span>
+            <div class="isflex" @click.stop="handleLike">
+              <span class="iconfont icon-like" v-if="!liked"></span>
+              <span class="iconfont icon-like1 feed-liked" v-if="liked"></span>
               <span>{{ likeCount }}</span>
             </div>
-            <div class="isflex" @click.prevent="handleComment">
+            <div class="isflex" @click.stop="handleComment">
               <span class="iconfont icon-i-message"></span>
               <span>{{ commentCount  }}</span>
             </div>
-            <div class="isflex" @click.prevent="handleView">
+            <div class="isflex" @click.stop="handleView">
               <span class="iconfont icon-view"></span>
               <span>{{ viewCount }}</span>
             </div>
           </div>
+
+          <div class="feed-comments">
+            <ul v-if="commentCount > 0" class="m-card-comments">
+              <li
+                v-for="com in comments"
+                v-if="com.id"
+                :key="com.id">
+                <comment-item :comment="com" @on-click="commentAction"/>
+              </li>
+            </ul>
+            <div class="feed-comments-more" v-if="commentCount > 5" @click="handleView('comment_list')">
+              <a>查看全部评论>></a>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -44,20 +60,25 @@
 <script>
   import Avatar from "../avatar";
   import FeedImage from "./FeedImage";
-  import Filters from "helpers/Filters.ts";
+  import Filters from "helpers/Filters";
+  import MyBus from "helpers/MyBus";
+  import FeedApi from "api/services/FeedApi";
+  import CommentItem from "./CommentItem";
 
   export default {
     name: "FeedTimeLineItem",
-    components: {FeedImage, Avatar},
+    components: {CommentItem, FeedImage, Avatar},
     data() {
-      return {}
+      return {
+        fetching: false,
+      }
     },
     props: {
       feed: Object,
     },
     computed: {
       isMine() {
-        return true;// this.feed.user_id === this.CURRENTUSER.id;
+        return this.feed.user_id === this.$store.getters.CURRENTUSER.id;
       },
       feedID() {
         return this.feed.id;
@@ -102,18 +123,11 @@
         const user = this.feed.user;
         return user && user.id ? user : {};
       },
-      needPay() {
-        const {paid_node} = this.feed;
-        return paid_node && !paid_node.paid;
-      },
       images() {
         return this.feed.images || [];
       },
       video() {
         return this.feed.video || false;
-      },
-      body() {
-        return this.feed.feed_content || "";
       },
       has_collect: {
         get() {
@@ -132,18 +146,71 @@
             2
           )}</span>`
           : `<span>${text}</span>`;
-      },
-      title() {
-        return this.feed.title || "";
       }
     },
     mounted() {
+      this.user && this.$store.commit("SAVE_USER", this.user);
     },
-    methods: {}
+    methods: {
+      handleView() {
+        let path = this.AppUrls.FeedDetail + '?id=' + this.feedID;
+        this.$route.go(path);
+      },
+      handleLike() {
+        if (this.fetching) return;
+        (this.liked ? FeedApi.unlike(this.feedID) : FeedApi.like(this.feedID)).then(r => {
+          this.fetching = false;
+          this.liked
+            ? ((this.liked = false), (this.likeCount -= 1))
+            : ((this.liked = true), (this.likeCount += 1));
+        }).catch(e => {
+          this.fetching = false;
+          throw e;
+        });
+      },
+      handleComment({placeholder, reply_user}) {
+        // MyBus.$emit("commentInput", {
+        //   placeholder,
+        //   onOk: text => {
+        //     this.sendComment({body: text, reply_user});
+        //   }
+        // });
+      },
+      handleMore() {
+
+      },
+      commentAction({isMine = false, placeholder, reply_user}) {
+
+      },
+      sendComment({reply_user: replyUser, body}) {
+        const params = {};
+        if (body && body.length > 0) {
+          params.body = body;
+          replyUser && (params["reply_user"] = replyUser);
+          this.$http
+            .post(`/feeds/${this.feedID}/comments`, params, {
+              validataStatus: s => s === 201
+            })
+            .then(({data = {comment: {}}}) => {
+              this.feed.feed_comment_count += 1;
+              this.feed.comments.unshift(data.comment);
+              this.$Message.success("评论成功");
+              bus.$emit("commentInput:close", true);
+            })
+            .catch(() => {
+              this.$Message.error("评论失败");
+              bus.$emit("commentInput:close", true);
+            });
+        } else {
+          this.$Message.error("评论内容不能为空");
+        }
+      }
+    }
   }
 </script>
-
 <style lang="less">
+  @import "../../../less/base/vars.less";
+
   .feed-wrap {
     border-top: 1px solid #ddd;
     .feed-body {
@@ -189,6 +256,17 @@
       color: #555;
       margin-bottom: 10px;
       font-size: 14px;
+    }
+    .feed-comments {
+      margin-bottom: 30px;
+      color: @text-color3;
+      font-size: 0.8em;
+      .feed-comments-more {
+        font-size: 0.8em;
+      }
+    }
+    .feed-liked {
+      color: #f33;
     }
   }
 </style>

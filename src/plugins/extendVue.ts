@@ -6,11 +6,15 @@
  */
 import {AppUrls} from "config/index";
 import {PluginObject} from "vue";
+import MyStore from "store/index";
+import {Store} from "vuex";
+
 // import * as components from "components/index";
 
 declare module "vue/types/vue" {
   interface Vue {
     $mp: any;
+    $store: Store<any>;
     $route: { back: (index?) => void, go: (url) => void };
     $toast: { loading: (title) => void, success: (title) => void, none: (title) => void };
     $loading: (title) => void;
@@ -28,6 +32,8 @@ export default class ExtendVue implements PluginObject<any> {
     //   console.log(components[componentKey]);
     //   Vue.component(componentKey, components[componentKey]);
     // })
+
+    Vue.prototype.$store = MyStore;
 
     Vue.prototype.$toast = {
       loading(title, time = 6000) {

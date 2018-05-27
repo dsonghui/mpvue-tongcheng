@@ -8,6 +8,8 @@ export const AppUrls = {
   MePage: pre + '/me/main',
   MePageDetail: pre + '/me/detail/main',
 
+  FeedDetail: pre + '/feed/detail/main',
+
   FormIndex: pre + '/form/index/main',
   FormMchat: pre + '/form/mchat/main',
   FormMchatHistory: pre + '/form/mchat/history/main',
