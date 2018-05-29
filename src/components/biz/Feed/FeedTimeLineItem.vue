@@ -37,8 +37,8 @@
             </div>
           </div>
 
-          <div class="feed-comments">
-            <ul v-if="commentCount > 0" class="m-card-comments">
+          <div class="feed-comments" v-if="commentCount > 0" >
+            <ul class="m-card-comments">
               <li
                 v-for="com in comments"
                 v-if="com.id"
