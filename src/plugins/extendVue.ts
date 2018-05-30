@@ -34,6 +34,7 @@ export default class ExtendVue implements PluginObject<any> {
     // })
 
     Vue.prototype.$store = MyStore;
+    Vue.prototype.$bus = new Vue();
 
     Vue.prototype.$toast = {
       loading(title, time = 6000) {

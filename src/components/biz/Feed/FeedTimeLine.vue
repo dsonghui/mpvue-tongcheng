@@ -1,16 +1,18 @@
 <template>
   <div class="feed-timeline">
-    <feed-time-line-item :feed="feed" :key="feed.id" v-for="(feed, feed_index) in feeds" ></feed-time-line-item>
+    <feed-time-line-item :feed="feed" :key="feed.id" v-for="(feed, feed_index) in feeds"></feed-time-line-item>
+    <feed-message></feed-message>
   </div>
 </template>
 
 <script>
   import FeedApi from 'api/services/FeedApi';
   import FeedTimeLineItem from "./FeedTimeLineItem";
+  import FeedMessage from "./FeedMessage";
 
   export default {
     name: "FeedTimeLine",
-    components: {FeedTimeLineItem},
+    components: {FeedMessage, FeedTimeLineItem},
     data() {
       return {
         feeds: []

@@ -168,13 +168,12 @@
           throw e;
         });
       },
-      handleComment({placeholder, reply_user}) {
-        // MyBus.$emit("commentInput", {
-        //   placeholder,
-        //   onOk: text => {
-        //     this.sendComment({body: text, reply_user});
-        //   }
-        // });
+      handleComment() {
+        MyBus.$emit("commentInput", {
+          onOk: textbody => {
+            this.sendComment(textbody);
+          }
+        });
       },
       handleMore() {
 
@@ -182,7 +181,7 @@
       commentAction({isMine = false, placeholder, reply_user}) {
 
       },
-      sendComment({reply_user: replyUser, body}) {
+      sendComment(body) {
         const params = {};
         if (body && body.length > 0) {
           params.body = body;
@@ -202,7 +201,7 @@
               bus.$emit("commentInput:close", true);
             });
         } else {
-          this.$Message.error("评论内容不能为空");
+          this.$toast.none("评论内容不能为空");
         }
       }
     }
