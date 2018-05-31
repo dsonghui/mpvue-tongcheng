@@ -4,7 +4,7 @@
  * Date: 2018/4/24
  */
 import Api from '../index'
-import {FeedsResponse} from "api/entities/FeedEntity";
+import {CommentResponse, FeedsResponse} from "api/entities/FeedEntity";
 
 export default class FeedApi {
   static preUrl = '/api/v2/feeds'
@@ -19,6 +19,12 @@ export default class FeedApi {
 
   static unlike(id) {
     return Api.request<any>(FeedApi.preUrl + '/' + id + '/unlike', {}, 'delete');
+  }
+
+  static postComments(id, body, reply_user?){
+    let param = {body}
+    reply_user || (param['reply_user'] = reply_user);
+    return Api.request<CommentResponse>(FeedApi.preUrl + '/' + id + '/comments', param, 'post');
   }
 
 }

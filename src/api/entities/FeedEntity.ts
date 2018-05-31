@@ -80,3 +80,8 @@ export interface Image {
   size: string;
   mime: string;
 }
+
+export interface CommentResponse {
+  message?: string;
+  comment?: Comment;
+}

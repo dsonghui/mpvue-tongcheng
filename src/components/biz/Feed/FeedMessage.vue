@@ -3,36 +3,66 @@
     <div class="feed-message-pop">
     </div>
     <div class="feed-message">
-      <input class="feed-message-input" placeholder="请输入评论内容" :focus="isFocus" confirm-type="send"
+      <input class="feed-message-input"
+             v-model.lazy="myvalue" :placeholder="placeholder" :focus="isFocus" confirm-type="send"
              @confirm="handleConfirm"/>
     </div>
   </div>
 </template>
 <script>
   import MyBus from "helpers/MyBus";
+  const myObj = {
+    num: 0
+  }
 
   export default {
     name: "FeedMessage",
     data() {
       return {
         isShow: false,
-        isFocus: true
+        isFocus: true,
+        loading: false,
+        onOk: null,
+        placeholder: '请输入评论内容',
+        myvalue: '',
       }
     },
     props: {},
     computed: {},
     mounted() {
-      console.log('FeedMessage mounted');
-      MyBus.$on('commentInput', (p) => {
-        console.log(p);
+      myObj.num++;
+      console.log('FeedMessage mounted ' + myObj.num + ' time');
+      MyBus.$on('commentInput', ({onOk}) => {
+        if (typeof onOk === 'function') this.onOk = onOk;
         this.isShow = true;
+      })
+      MyBus.$on('commentInput:close', (status) => {
+        console.log('commentInput:close');
+        status && this.clean();
+        this.cancel();
       })
     },
     methods: {
       handleConfirm(e) {
         let value = e.mp.detail.value;
-        console.log(value);
-      }
+        if (this.loading) return;
+        this.loading = true;
+        if (typeof this.onOk === 'function') this.onOk(value);
+        this.loading = false;
+      },
+      clean() {
+        this.myvalue = '';
+      },
+      cancel() {
+        this.placeholder = "请输入评论内容";
+        this.loading = false;
+        this.onOk = null;
+        this.isShow = false;
+      },
+
+    },
+    destroyed() {
+      this.clean();
     }
   };
 </script>

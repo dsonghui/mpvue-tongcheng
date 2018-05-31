@@ -46,7 +46,7 @@
                 <comment-item :comment="com" @on-click="commentAction"/>
               </li>
             </ul>
-            <div class="feed-comments-more" v-if="commentCount > 5" @click="handleView('comment_list')">
+            <div class="feed-comments-more" v-if="commentCount > 5" @click="handleView">
               <a>查看全部评论>></a>
             </div>
           </div>
@@ -181,24 +181,20 @@
       commentAction({isMine = false, placeholder, reply_user}) {
 
       },
-      sendComment(body) {
+      sendComment(body, replyUser="") {
         const params = {};
         if (body && body.length > 0) {
           params.body = body;
           replyUser && (params["reply_user"] = replyUser);
-          this.$http
-            .post(`/feeds/${this.feedID}/comments`, params, {
-              validataStatus: s => s === 201
-            })
-            .then(({data = {comment: {}}}) => {
-              this.feed.feed_comment_count += 1;
-              this.feed.comments.unshift(data.comment);
-              this.$Message.success("评论成功");
-              bus.$emit("commentInput:close", true);
-            })
+          FeedApi.postComments(this.feedID, body, replyUser).then(response=>{
+            this.feed.feed_comment_count += 1;
+            this.feed.comments.unshift(response.comment);
+            this.$toast.success("评论成功");
+            MyBus.$emit("commentInput:close", true);
+          })
             .catch(() => {
               this.$Message.error("评论失败");
-              bus.$emit("commentInput:close", true);
+              MyBus.$emit("commentInput:close", true);
             });
         } else {
           this.$toast.none("评论内容不能为空");
