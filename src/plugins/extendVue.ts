@@ -9,11 +9,22 @@ import {PluginObject} from "vue";
 import MyStore from "store/index";
 import {Store} from "vuex";
 
-// import * as components from "components/index";
+export interface $mpvue {
+  appOptions: {
+    path: string;
+    query: any;
+    scene: number;
+  };
+  mpType: string;
+  page: any;
+  query: any;
+  status: string;
+}
+
 
 declare module "vue/types/vue" {
   interface Vue {
-    $mp: any;
+    $mp: $mpvue;
     $store: Store<any>;
     $route: { back: (index?) => void, go: (url) => void };
     $toast: { loading: (title) => void, success: (title) => void, none: (title) => void };

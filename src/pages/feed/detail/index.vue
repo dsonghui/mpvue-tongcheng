@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FeedDetail></FeedDetail>
+    <FeedDetail :feed="FeedModel"></FeedDetail>
   </div>
 </template>
 <script lang="ts" src="./index.ts">

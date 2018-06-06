@@ -1,7 +1,8 @@
-import {Vue, Component} from "vue-property-decorator";
+import {Vue, Component, Watch} from "vue-property-decorator";
 import PageMixins from "mixins/PageMixins";
 import FeedDetail from "components/biz/Feed/FeedDetail.vue";
-import MyBus from "helpers/MyBus";
+import FeedApi from "api/services/FeedApi";
+import {Feed} from "api/entities/FeedEntity";
 
 const debug = require('debug')('log:Index');
 
@@ -13,15 +14,26 @@ const debug = require('debug')('log:Index');
   }
 })
 export default class FeedDetailPage extends Vue {
-  isShow: boolean = false;
-  time: number = 0;
+  feedId: number = null;
+  FeedModel: Feed = <any>{};
 
   mounted() {
-    console.log('FeedDetailPage mounted');
-    this.time++;
-    MyBus.$on('commentInput', ({onOk}) => {
-      this.isShow = true;
-      console.log('commentInput on FeedDetail' + this.time);
+    this.__updateFeedId();
+    this.__updateFeedDetail();
+  }
+
+  __updateFeedId() {
+    this.feedId = this.$mp.query.id ? this.$mp.query.id : 0;
+  }
+
+  __updateFeedDetail() {
+    FeedApi.getFeed(this.feedId).then(r => {
+      if (r) {
+        this.FeedModel = r;
+        return;
+      }
+      throw new Error('获取数据失败');
     })
   }
+
 }
