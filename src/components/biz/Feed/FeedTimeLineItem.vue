@@ -212,7 +212,7 @@
       padding: 10px;
       display: flex;
       .feed-avatar {
-        width: 60px;
+        width: 45px;
       }
       .feed-content {
         flex: 1;

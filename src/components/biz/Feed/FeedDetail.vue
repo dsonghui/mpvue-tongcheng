@@ -2,7 +2,6 @@
   <div
     class="feed-detail"
   >
-
     <div class="feed-detail-header isflex">
       <div class="feed-avatar">
         <Avatar :user="user"></Avatar>
@@ -23,21 +22,22 @@
 
     <div class="feed-detail-footer">
       <div class="feed-status">
-        <div class="isflex" @click.stop="handleLike">
-          <span class="iconfont icon-like" v-if="!liked"></span>
-          <span class="iconfont icon-like1 feed-liked" v-if="liked"></span>
-          <span>{{ likeCount }}</span>
+        <div class="feed-detail-like-avatar f-f-1">
+          <a href="" v-if='likeCount > 0'>
+            <div
+              :key="index"
+              v-for="(likeMode, index) in likesAvatars"
+              class="m-avatar-box tiny">
+              <img :src="likeMode.user.avatar">
+            </div>
+            <span>{{ likeCount}}人点赞</span>
+          </a>
         </div>
-        <div class="isflex" @click.stop="handleComment">
-          <span class="iconfont icon-i-message"></span>
-          <span>{{ commentCount  }}</span>
-        </div>
-        <div class="isflex" @click.stop="handleView">
-          <span class="iconfont icon-view"></span>
-          <span>{{ viewCount }}</span>
+        <div class="feed-detail-viewcount text-right">
+          <div>发布于{{ timetext }}</div>
+          <div>{{ viewCount }}浏览</div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -45,6 +45,7 @@
 <script>
   import Avatar from "../avatar";
   import Filters from "helpers/Filters";
+  import MyStore from "../../../store";
 
   export default {
     name: "FeedDetail",
@@ -71,6 +72,22 @@
       },
       comments() {
         return this.feed.comments || [];
+      },
+      likes: {
+        get() {
+          let l = (this.feed.likes || []);
+          return l.map(like => {
+            return Object.assign({}, like, {
+              user: MyStore.getters.getUserById(like.user_id)
+            });
+          }).slice(0, 5);
+        },
+        set(val) {
+          this.feed.likes = val;
+        }
+      },
+      likesAvatars() {
+        return this.likes.filter(l => l.user && l.user.avatar)
       },
       liked: {
         get() {
@@ -114,16 +131,19 @@
       },
       video() {
         return this.feed.video || false;
-      }
+      },
+
     },
     methods: {}
   };
 </script>
 <style lang='less'>
   .feed-detail {
-
+    padding: 10px;
+    .feed-user-name {
+      margin-left: 10px;
+    }
     .feed-detail-footer {
-
       .feed-status {
         display: flex;
         font-size: 14PX;
@@ -135,6 +155,9 @@
         .iconfont {
           font-size: 18PX;
           margin-right: 5px;
+        }
+        .feed-detail-like-avatar {
+
         }
       }
     }

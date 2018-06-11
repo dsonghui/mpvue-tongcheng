@@ -62,8 +62,8 @@
 
 <style lang="less">
   .m-avatar-box {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     overflow: hidden;
     border-radius: 4PX;
     .m-avatar-img {
