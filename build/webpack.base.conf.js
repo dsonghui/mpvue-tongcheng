@@ -1,6 +1,5 @@
 var path = require('path')
 var fs = require('fs')
-var webpack = require('webpack')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
@@ -11,7 +10,7 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntry(rootSrc, pattern) {
+function getEntry (rootSrc, pattern) {
   var files = glob.sync(path.resolve(rootSrc, pattern))
   return files.reduce((res, file) => {
     var info = path.parse(file)
@@ -21,7 +20,7 @@ function getEntry(rootSrc, pattern) {
   }, {})
 }
 
-const appEntry = {app: resolve('./src/main.ts')}
+const appEntry = { app: resolve('./src/main.ts') }
 const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.ts')
 const entry = Object.assign({}, appEntry, pagesEntry)
 
@@ -74,7 +73,14 @@ module.exports = {
               checkMPEntry: true
             }
           },
-          'ts-loader'
+          {
+            // loader: 'ts-loader',
+            loader: 'awesome-typescript-loader',
+            options: {
+              // errorsAsWarnings: true,
+              useCache: true,
+            }
+          }
         ]
       },
       {

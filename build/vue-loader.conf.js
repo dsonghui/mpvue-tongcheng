@@ -13,7 +13,14 @@ module.exports = {
   }), {
     ts: [
       'babel-loader',
-      'ts-loader'
+      {
+        // loader: 'ts-loader',
+        loader: 'awesome-typescript-loader',
+        options: {
+          // errorsAsWarnings: true,
+          useCache: true,
+        }
+      }
     ]
   }),
   transformToRequire: {
